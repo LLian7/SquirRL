@@ -17,7 +17,7 @@ def null(A, eps=1e-8):
 def MP_stationary_distribution(A):
     #A = np.array(A, dtype= np.double)
     n = A.shape[0]
-    I = np.eye(n, dtype = np.float32)
+    I = np.eye(n, dtype = np.float32)   # 生成对角阵，主对角线上元素为1，其余位置均为0,矩阵规模为n
     #p = np.linalg.solve((A - I).T, np.zeros(n))
     p = null((A - I).T).T
     p = p.reshape(n)
