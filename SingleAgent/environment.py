@@ -6,7 +6,12 @@ import mdptoolbox
 import markov_util
 from scipy.stats import truncnorm
 
-def Normalize(v):
+def Normalize(v):        
+    
+    # If the sum of the values in v is not zero, 
+    # then each value in v is divided by the sum
+    # of all values in v respectively.
+    
     norm = 0
     for i in range(len(v)):
         norm += v[i]
@@ -17,12 +22,19 @@ def Normalize(v):
     return v
 
 def random_normal_trunc(mean, dev, low, up):
+    
+    # Random samples are drawn from a  
+    # normal distribution and these samples are intercepted.
+    
     x = np.random.normal(mean, dev)
     return np.clip(x, low, up)
 
 class alpha_random_process:
 
     def __init__(self, alpha, dev, interval, name = "iid"):
+        
+    # Initialisation
+    
         self._attacker_start = alpha
         self._attacker = alpha
         self._other = 1 - alpha
@@ -34,6 +46,7 @@ class alpha_random_process:
         self._name = name
 
     def reset(self):
+        
         self._other = self._other_start
         self._attacker = self._attacker_start
         return self.get()
