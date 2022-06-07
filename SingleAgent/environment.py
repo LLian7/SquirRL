@@ -2330,7 +2330,7 @@ class SM_env_with_stale:
         print(self._rule, "alpha = ", self._alpha, "OSM p = ", low)
         return ret
 
-class SM_env_with_cost:
+class SM_env_with_cost:                     # the SM environment with cost.
 
     # max_hidden_block : limit the max hidden block of attacker
     # attacker_fraction : usually denoted as alpha, the hash power of the attacker against the whole network
