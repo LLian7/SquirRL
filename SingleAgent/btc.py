@@ -103,10 +103,10 @@ class Qnetwork():
         #legal_move_list = range(env._action_space_n)
 
         if np.random.rand(1) < e:
-            a = np.random.choice(self.action_space_n)
+            a = np.random.choice(self.action_space_n)                   # take number from self.action_space_n with equal probability
         else:
             Q = self.get_Q_table(sess, s)
-            a = np.argmax(Q)
+            a = np.argmax(Q)       # get the index of the element with the largest value in a dimension of Q
 
             '''
             #print(Q)
@@ -137,12 +137,13 @@ class experience_buffer():
         #print(experience)
         if len(self.buffer) + len(experience) >= self.buffer_size:
             self.buffer[0:(len(experience) + len(self.buffer)) - self.buffer_size] = []
-        self.buffer.extend(experience)
+        self.buffer.extend(experience)          # append the value in 'experience' at the end of 'self.buffer' 
 
     def sample(self, size):
         #print(self.buffer)
         size = min(size, len(self.buffer))
-        return np.reshape(np.array(random.sample(self.buffer, size)), [size, 5])
+        return np.reshape(np.array(random.sample(self.buffer, size)), [size, 5])   
+        # 'np.reshape' gives a new shape to an array without changing its data.
         #return random.sample(self.buffer, size)
 
 
