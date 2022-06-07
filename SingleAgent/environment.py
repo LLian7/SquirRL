@@ -45,7 +45,7 @@ class alpha_random_process:
             self._interval = (1e-6, self._interval[1])
         self._name = name
 
-    def reset(self):
+    def reset(self):                                            #reset the environment to the starting state
         
         self._other = self._other_start
         self._attacker = self._attacker_start
@@ -90,7 +90,7 @@ class real_alpha_process:
         self._pointer = 0
         self._interval = interval
 
-    def reset(self):
+    def reset(self):                    #reset the environment to the starting state
         self._alpha = self._start_alpha
         self._pointer = 0
 
@@ -127,11 +127,13 @@ class SM_env:
         #rate = a
         return rate
 
-    def seed(self, sd):
-        np.random.seed(sd)
+    def seed(self, sd):             # generate random numbers by using random number seeds 'sd'.
+        np.random.seed(sd)      
 
     def __init__(self, max_hidden_block, attacker_fraction, follower_fraction, relative_p = 0, dev = 0, random_interval = (0, 1), frequency = 1, random_process = "iid", array = []):
-
+        
+        # Initialisation
+        
         self._max_hidden_block = max_hidden_block
         self._state_space = []
         self._state_dict = {}
@@ -587,7 +589,7 @@ class SM_env:
     def reward_fraction(self):
         return (self._attack_block) / (self._honest_block + self._attack_block)
 
-    def name_of_action(self, idx, action):
+    def name_of_action(self, idx, action):                                  # set the action name.
         state = self._index_to_name(idx)
         action_name = ""
         if (action == 0):
@@ -600,11 +602,11 @@ class SM_env:
             action_name = "wait"
         return action_name
 
-    def map_to_legal_action(self, idx, action):
+    def map_to_legal_action(self, idx, action):                 # return actual action.
         s, r, d, a = self.step(idx, action, move = False)
         return a
 
-    def mapped_name_of_action(self, idx, action):
+    def mapped_name_of_action(self, idx, action):               # return the name of action.
         s, r, d, a = self.step(idx, action, move = False)
         return self.name_of_action(idx, a)
 
