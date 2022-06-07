@@ -29,7 +29,7 @@ def random_normal_trunc(mean, dev, low, up):
     x = np.random.normal(mean, dev)
     return np.clip(x, low, up)
 
-class alpha_random_process:
+class alpha_random_process:                                     
 
     def __init__(self, alpha, dev, interval, name = "iid"):
         
@@ -52,6 +52,9 @@ class alpha_random_process:
         return self.get()
 
     def next(self):
+        
+    # Generate the next agent.
+        
         if (self._name == "iid"):
             #lower_bound = self._attacker / self._interval[1] - self._attacker
             #upper_bound = self._attacker / self._interval[0] - self._attacker
@@ -73,7 +76,7 @@ class alpha_random_process:
         return self._attacker / (self._attacker + self._other)
 
 class real_alpha_process:
-    def __init__(self, alpha, interval, array):
+    def __init__(self, alpha, interval, array):                         # Initialisation
         self._start_alpha = alpha
         self._alpha = alpha
         self._array = array
@@ -94,7 +97,7 @@ class real_alpha_process:
     def get(self):
         return self._alpha
 
-    def next(self):
+    def next(self):                                     # Generate the next agent.
         self._pointer += 1
         while (self._array[self._pointer] == 0): self._pointer += 1
         self._alpha = np.clip(self._attacker_hashrate / self._array[self._pointer], self._interval[0], self._interval[1])
