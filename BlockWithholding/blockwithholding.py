@@ -30,9 +30,10 @@ import math
 import sympy as sym
 
 tf = try_import_tf()
+# argparse 模块可以让人轻松编写用户友好的命令行接口
+CLI = argparse.ArgumentParser()  # 创建一个 ArgumentParser 对象
 
-CLI = argparse.ArgumentParser()
-
+#通过调用 add_argument() 方法给 ArgumentParser对象添加程序所需的参数信息
 CLI.add_argument(
     "--alphas",
     nargs = '*',
@@ -114,7 +115,7 @@ CLI.add_argument(
     type = int,
     default = 1
 )
-args = CLI.parse_args()
+args = CLI.parse_args()     # 通过 parse_args() 方法解析参数
 
 eps = 1e-6
 
