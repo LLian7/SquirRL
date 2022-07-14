@@ -34,47 +34,23 @@ class Qnetwork():
         self.state_space_n = state_space_n
         self.action_space_n = action_space_n
         self.state_vector_n = state_vector_n
-
-        # The network recieves a state number from
+        
+        # The network recieves a frame from the game, flattened into an array.
         # It then resizes it and processes it through four convolutional layers.
+        
         self.vectorIn = tf.placeholder(shape=[None, state_vector_n], dtype=tf.float32)
-        #print(self.scalarInput)
-        #self.vectorIn = tf.one_hot(self.scalarInput, state_space_n, dtype=tf.float32)
-        #print(self.vectorIn)
+       
         self.fc1 = tf.layers.dense(self.vectorIn, h_size, activation=tf.nn.relu)
-        #print(self.fc1)
+       
         self.fc2 = tf.layers.dense(self.fc1, h_size, activation=tf.nn.relu)
-        #print(self.fc2)
-
-        '''
-        self.imageIn = tf.reshape(self.scalarInput, shape=[-1, 84, 84, 3])
-        self.conv1 = slim.conv2d( \
-            inputs=self.imageIn, num_outputs=32, kernel_size=[8, 8], stride=[4, 4], padding='VALID',
-            biases_initializer=None)
-        self.conv2 = slim.conv2d( \
-            inputs=self.conv1, num_outputs=64, kernel_size=[4, 4], stride=[2, 2], padding='VALID',
-            biases_initializer=None)
-        self.conv3 = slim.conv2d( \
-            inputs=self.conv2, num_outputs=64, kernel_size=[3, 3], stride=[1, 1], padding='VALID',
-            biases_initializer=None)
-        self.conv4 = slim.conv2d( \
-            inputs=self.conv3, num_outputs=h_size, kernel_size=[7, 7], stride=[1, 1], padding='VALID',
-            biases_initializer=None)
-        '''
-
-        # We take the output from the final layer and split it into separate advantage and value streams.
-        #self.streamAC, self.streamVC = tf.split(self.conv4, 2, 3)
-        #self.streamA = slim.flatten(self.streamAC)
-        #self.streamV = slim.flatten(self.streamVC)
-
-        #print(self.fc2)
-
+ 
         self.streamA, self.streamV = tf.split(self.fc2, 2, 1)
         xavier_init = tf.contrib.layers.xavier_initializer()
         self.AW = tf.Variable(xavier_init([h_size // 2, action_space_n]))
         self.VW = tf.Variable(xavier_init([h_size // 2, 1]))
         self.Advantage = tf.matmul(self.streamA, self.AW)
         self.Value = tf.matmul(self.streamV, self.VW)
+        
         # Then combine them together to get our final Q-values.
         self.Qout = self.Value + tf.subtract(self.Advantage, tf.reduce_mean(self.Advantage, axis=1, keep_dims=True))
         #print(self.Qout)
