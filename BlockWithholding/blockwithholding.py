@@ -120,8 +120,8 @@ args = CLI.parse_args()     # 通过 parse_args() 方法解析参数
 eps = 1e-6
 
 #setting in miner's dilemma
-ACTION_SPACE = spaces.Box(low=np.array([0.]), high=np.array([1.]), dtype=np.float32)
-STATE_SPACE = spaces.Discrete(1)
+ACTION_SPACE = spaces.Box(low=np.array([0.]), high=np.array([1.]), dtype=np.float32)  # 相关介绍 https://github.com/openai/gym/blob/master/gym/spaces/box.py
+STATE_SPACE = spaces.Discrete(1)      
 NE = dict()
 
 def get_optimal_strategy(a, b, y):
